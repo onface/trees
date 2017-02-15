@@ -175,37 +175,6 @@ p {/* ... */}
 .m-demo-import {/* ... */}
 ```
 
-## table 可以使用子选择器选择元素
-
-```css
-.m-table>thead {/* ... */}
-.m-table>thead>tr {/* ... */}
-.m-table>thead>tr>th {/* ... */}
-.m-table>tbody {/* ... */}
-.m-table>tbody>tr {/* ... */}
-.m-table>tbody>tr>td {/* ... */}
-```
-
-```html
-<table class="m-table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Age</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>nimo</td>
-            <td>24</td>
-        </tr>
-        <tr>
-            <td>judy</td>
-            <td>24</td>
-        </tr>
-    </tbody>
-</table>
-```
 
 ## 页面
 
