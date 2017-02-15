@@ -142,6 +142,76 @@ html .m-text-b--error .m-text-b-title{
 
 **在任何位置嵌套的子模块需要在选择增加 `/* free */` 或者 `// free` 的注释**
 
+
+## table 可以使用子选择器选择元素
+
+```css
+.m-table>thead {/* ... */}
+.m-table>thead>tr {/* ... */}
+.m-table>thead>tr>th {/* ... */}
+.m-table>tbody {/* ... */}
+.m-table>tbody>tr {/* ... */}
+.m-table>tbody>tr>td {/* ... */}
+```
+
+```html
+<table class="m-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>nimo</td>
+            <td>24</td>
+        </tr>
+        <tr>
+            <td>judy</td>
+            <td>24</td>
+        </tr>
+    </tbody>
+</table>
+```
+
+### 不允许在子选择器后出现 class 选择器
+
+```css
+// Bad
+.m-table>thead>tr>.m-table-some {}
+```
+
+这种情况应该使用子模块
+
+```css
+// free
+.m-table-some{}
+```
+
+子选择器后面不出现 class 选择器则可以**快速计算样式的权重** `.m-table>thead>tr>th` `0.0.1.3` 甚至不用管最后一级权重。直接认定为 `0.0.1.*`。
+
+需要**快速计算样式的权重**的原因是某些情况下需要覆盖 `.m-table>thead>tr>td` 样式。
+
+```html
+<table class="m-table" >
+  <thead>
+    <tr><th class="some" ></th></tr>
+  </thead>
+</table>
+```
+
+```css
+// 0.0.1.3
+.m-table>thead>tr>th {
+    max-width:100px
+}
+// 0.0.2.0
+.m-table .some {
+    max-width: 30px
+}
+```
+
 ## 不允许出现以下代码
 
 
