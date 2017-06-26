@@ -7,7 +7,7 @@
 > 若要兼容IE6则使用 [normalize.css 1.0 ](https://github.com/necolas/normalize.css/tree/v1) (IE6+)
 
 此规范的核心理念是通过 `{grandpaElement}-{FatherElement}-{SonElement}` 的方式书写 class ，以**降低选择器权重**和**明确样式命中元素**。  
-并提供 `html .m-box--on` 状态机制来管理同一个模块的多种展现形式。
+并提供 `.m-box--on` 状态机制来管理同一个模块的多种展现形式。
 
 ## 模块 `/m/`
 
@@ -57,14 +57,18 @@
     background-color: white;
 }
 /* .m-{模块名}--{状态} */
-html .m-box--on {
+.m-box--on {
     border-color:orange;
     background-color: #FFF1D9;
 }
-html .m-box--on .m-box-hd {
+.m-box--on .m-box-hd {
     border-bottom-color: orange;
 }
-/* 选择器前加 html 是为了提高状态的CSS权重 */
+/*
+    注意书写顺序已覆盖 .m-box 的样式,
+    不要通过增加选择器权重的方式覆盖样式
+    bad: html .m-box--on {}
+*/
 ````
 
 ### 多级状态
@@ -77,10 +81,10 @@ html .m-box--on .m-box-hd {
 </div>
 ```
 ```css
-html .m-some-item-light {
+.m-some-item-light {
     font-weight:bold;
 }
-html .m-some--night .m-some-item--light {
+.m-some--night .m-some-item--light {
     text-shadow:0,0,10px,white;
 }
 ```
@@ -118,7 +122,7 @@ html .m-some--night .m-some-item--light {
 .m-text-b {}
 .m-text-b-title {text-align: center;}
 .m-text-b-text {font-size:12px;}
-html .m-text-b--error .m-text-b-title{
+.m-text-b--error .m-text-b-title{
     color:red;
 }
 ```
@@ -245,6 +249,60 @@ p {/* ... */}
 .m-demo-import {/* ... */}
 ```
 
+## table
+
+简化 table class 的命名
+
+```
+.m-table-thead-tr-th            .m-table-th
+.m-table-tbody-tr               .m-table-tr
+.m-table-tbody-tr-td            .m-table-td
+.m-table-tbody-tr-td-table      .m-table-2
+.m-table-thead-tr-td-table      .m-table-thead-2
+```
+
+````html
+<table class="m-table" >
+    <thead class="m-table-thead">
+        <tr class="m-table-thead-tr">
+            <th class="m-table-th">Name</th>
+            <th class="m-table-th">Age</th>
+        </tr>
+    </thead>
+    <tbody class="m-table-tbody" >
+        <tr class="m-table-tr">
+            <td class="m-table-td">
+                Nimo
+            </td>
+            <td class="m-table-td">
+                24
+            </td>
+        </tr>
+        <tr class="m-table-tr">
+            <td class="m-table-td">
+                Nico
+            </td>
+            <td class="m-table-td">
+                <!-- 2 === level tow -->
+                <table class="m-table-2" >
+                    <thead class="m-table-2-thead">
+                        <tr class="m-table-2-thead-tr" >
+                            <th class="m-table-2-th" >Some</th>
+                        </tr>
+                    </thead>
+                    <tbody class="m-table-2-tbody">
+                        <tr class="m-table-2-tr" >
+                            <td class="m-table-2-td" >
+                                <table class="m-table-3">...</table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+````
 
 ## 页面
 
@@ -256,10 +314,10 @@ p {/* ... */}
 
 > 在SPA场景可以使用 `_` 作为 `url` 中 `/` 的替代符号，建议使用 [CSS Modules](http://www.ruanyifeng.com/blog/2016/06/css_modules.html)。
 
+
 ## 细则
 
 **驼峰命名：**  
 class 允许出现驼峰命名 `box-mainPhoto` `.m-box-mainPhoto` `.m-box-mainPhoto--lastChild`。
-但绝不允许在第一个单词中使用驼峰，例如： `Box-mainPhoto` `.m-Box-mainPhoto`
 
 **下划线：**  如果你使用了 css-module 则可以使用 `_` 代替 `-` 。 `.m-box-title` `=>` `.m_box_title`
