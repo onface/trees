@@ -304,6 +304,52 @@ p {/* ... */}
 </table>
 ````
 
+## 继承
+
+例如 form 模块中提交按钮需要使用 m-btn 的样式则通过 less/sass 继承的方式实现
+
+```html
+<div class="m-form">
+    <button class="m-form-submit" type="submit" >Submit</button>
+</div>
+```
+
+```less
+.m-form-submit {
+    .m-btn();
+    .m-btn--primary();
+    box-shadow: 0px 0px 10px skyblue;
+}
+```
+
+## 组合
+
+一个 html  tag 的 class 不允许出现2个不同模块，但可以嵌套 （**模块中禁止**，**页面中避免**）
+
+**bad**
+```html
+<div class="m-form m-list">
+    <div class="m-list-item m-form-item">
+        <input class="m-form-item-input" type="text" />
+    </div>
+</div>
+```
+**good**
+```html
+<div class="m-form">
+    <div class="m-list">
+        <div class="m-list-item">
+            <div class="m-form-item">
+                <input class="m-form-item-input" type="text" />
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+因为如何一个 html tag 有2个不同模块的 class 应该使用上节的继承来做。
+
+
 ## 页面
 
 与**模块**命名规则一致，但不需要 `.m-` 前缀，若项目是SPA类型则以页面 `url` 作为前缀
