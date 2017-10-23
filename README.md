@@ -137,25 +137,6 @@ box on
 }
 ```
 
-子模块可以嵌套在任意位置
-
-```html
-<div class="m-head">
-    <div class="m-head-inner">
-        <div class="m-head-nav">...</div>
-        <div class="m-head-login">...</div>
-    </div>
-</div>
-```
-```css
-/* free  */
-.m-head-inner {
-    width:1100px;margin-left: auto;margin-right: auto;
-}
-```
-
-**在任何位置嵌套的子模块需要在选择增加 `/* free */` 或者 `// free` 的注释**
-
 
 ## table 可以使用子选择器选择元素
 
