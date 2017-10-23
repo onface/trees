@@ -6,8 +6,9 @@
 
 > 若要兼容IE6则使用 [normalize.css 1.0 ](https://github.com/necolas/normalize.css/tree/v1) (IE6+)
 
-此规范的核心理念是通过 `{grandpaElement}-{FatherElement}-{SonElement}` 的方式书写 class ，以**降低选择器权重**和**明确样式命中元素**。  
+此规范的核心理念是通过 `{grandpaElement}-{FatherElement}-{SonElement}` 的方式书写 class ，以**降低选择器权重**和**明确样式命中元素**。
 并提供 `.m-box--on` 状态机制来管理同一个模块的多种展现形式。
+
 
 ## 模块 `/m/`
 
@@ -70,6 +71,15 @@
     bad: html .m-box--on {}
 */
 ````
+
+**trees(树状结构)对应DOM结构**
+
+```
+box on
+|-- hd
+|  `-- title
+`-- bd
+```
 
 ### 多级状态
 
@@ -363,7 +373,7 @@ p {/* ... */}
 
 ## 细则
 
-**驼峰命名：**  
+**驼峰命名：**
 class 允许出现驼峰命名 `box-mainPhoto` `.m-box-mainPhoto` `.m-box-mainPhoto--lastChild`。
 
 **下划线：**  如果你使用了 css-module 则可以使用 `_` 代替 `-` 。 `.m-box-title` `=>` `.m_box_title`
