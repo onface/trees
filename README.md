@@ -58,15 +58,15 @@
     background-color: white;
 }
 /* .m-{模块名}--{状态} */
-.m-box--on {
-    border-color:orange;
-    background-color: #FFF1D9;
-}
-.m-box--on .m-box-hd {
-    border-bottom-color: orange;
-}
+    .m-box--on {
+        border-color:orange;
+        background-color: #FFF1D9;
+    }
+    .m-box--on .m-box-hd {
+        border-bottom-color: orange;
+    }
 /*
-    注意书写顺序已覆盖 .m-box 的样式,
+    使用书写顺序覆盖 .m-box 的样式,
     不要通过增加选择器权重的方式覆盖样式
     bad: html .m-box--on {}
 */
@@ -103,6 +103,9 @@ box on
 
 **非常相似的** 的 **简单** 模块可使用多个子模块开发
 
+多个子模块组合在一起就是家族模块 `family modules`，下例就是 `text` 家族的模块分别有 `text-a` `text-b`。
+
+家族模块可以放在一个文件夹下管理 `/m/text/a.css` `/m/text/b.css`
 
 ```html
 <div class="m-text-a">
@@ -137,75 +140,6 @@ box on
 }
 ```
 
-
-## table 可以使用子选择器选择元素
-
-```css
-.m-table>thead {/* ... */}
-.m-table>thead>tr {/* ... */}
-.m-table>thead>tr>th {/* ... */}
-.m-table>tbody {/* ... */}
-.m-table>tbody>tr {/* ... */}
-.m-table>tbody>tr>td {/* ... */}
-```
-
-```html
-<table class="m-table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Age</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>nimo</td>
-            <td>24</td>
-        </tr>
-        <tr>
-            <td>judy</td>
-            <td>24</td>
-        </tr>
-    </tbody>
-</table>
-```
-
-### 不允许在子选择器后出现 class 选择器
-
-```css
-// Bad
-.m-table>thead>tr>.m-table-some {}
-```
-
-这种情况应该使用子模块
-
-```css
-// free
-.m-table-some{}
-```
-
-子选择器后面不出现 class 选择器则可以**快速计算样式的权重** `.m-table>thead>tr>th` `0.0.1.3` 甚至不用管最后一级权重。直接认定为 `0.0.1.*`。
-
-需要**快速计算样式的权重**的原因是某些情况下需要覆盖 `.m-table>thead>tr>td` 样式。
-
-```html
-<table class="m-table" >
-  <thead>
-    <tr><th class="some" ></th></tr>
-  </thead>
-</table>
-```
-
-```css
-// 0.0.1.3
-.m-table>thead>tr>th {
-    max-width:100px
-}
-// 0.0.2.0
-.m-table .some {
-    max-width: 30px
-}
-```
 
 ## 不允许出现以下代码
 
@@ -352,9 +286,39 @@ p {/* ... */}
 > 在SPA场景可以使用 `_` 作为 `url` 中 `/` 的替代符号，建议使用 [CSS Modules](http://www.ruanyifeng.com/blog/2016/06/css_modules.html)。
 
 
-## 细则
+## 命名格式
 
 **驼峰命名：**
 class 允许出现驼峰命名 `box-mainPhoto` `.m-box-mainPhoto` `.m-box-mainPhoto--lastChild`。
 
 **下划线：**  如果你使用了 css-module 则可以使用 `_` 代替 `-` 。 `.m-box-title` `=>` `.m_box_title`
+
+
+## free
+
+`.m-head-F-inner`
+
+`F = free`
+
+允许出现以下情况：
+
+```html
+<div class="m-head">
+    <div class="m-head-F-inner">
+        <img src="./logo.png" alt="" class="m-head-logo">
+        <div class="m-head-nav"></div>
+    </div>
+</div>
+```
+```css
+.m-head {}
+.m-head-F-inner {
+    width:1200px;
+    margin-left:auto;
+    margin-right: auto;
+}
+```
+
+当模块已经开发完成并上线后，需要在现有的 HTML 的结构上再加上一层也可以使用 `m-模块名-F-名称` 的命名方式。
+
+自由模块可以出现在模块的任意位置，甚至包裹住模块，或者与模块同级。但是不兼容滥用自由模块。自由模块是为了在开发效率和维护性中找到一个平衡点而存在的。
